@@ -1,102 +1,150 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+
+import { useState } from "react";
+import { FaInstagram, FaLinkedin, FaGithub, } from "react-icons/fa";
+import { GiOrbital } from "react-icons/gi";
+
+
+export default function Page() {
+  const [totalClasses, setTotalClasses] = useState("");
+  const [attendedClasses, setAttendedClasses] = useState("");
+  const [remainingClasses, setRemainingClasses] = useState("");
+  const [requiredPercentage, setRequiredPercentage] = useState(75);
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const calculateBunks = async () => {
+    if (!totalClasses || !attendedClasses || !remainingClasses || !requiredPercentage) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch("https://how-many-bunk-i-can-have-backend.vercel.app/calculate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          total_classes: Number(totalClasses),
+          attended_classes: Number(attendedClasses),
+          remaining_classes: Number(remainingClasses),
+          required_percentage: Number(requiredPercentage),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("API Response:", data); // Debugging log
+
+      if (!data || typeof data !== "object") {
+        throw new Error("Invalid API response format");
+      }
+
+      setResult(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      alert(`Failed to fetch data: ${error.message}`);
+    }
+    setLoading(false);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-green-900 to-blue-900 text-white px-4 py-8">
+      <head>
+        <link rel="icon" href="/logog.png" />
+      </head>
+      <h1 className="text-4xl font-extrabold mb-2 text-center">🎓 HOW MANY BUNK I CAN HAVE?</h1>
+      <p className="mb-6 text-gray-300 text-lg text-center">Enjoy the Life 😎</p>
+
+      <div className="bg-gray-800 p-6 rounded-xl shadow-xl w-full max-w-md">
+        <div className="mb-4">
+          <label className="block text-gray-300 font-semibold">Total Number of Lectures</label>
+          <input
+            type="number"
+            value={totalClasses}
+            onChange={(e) => setTotalClasses(e.target.value)}
+            className="w-full p-3 mt-1 bg-transparent text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter total lectures"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-300 font-semibold">Attended Lectures</label>
+          <input
+            type="number"
+            value={attendedClasses}
+            onChange={(e) => setAttendedClasses(e.target.value)}
+            className="w-full p-3 mt-1 bg-transparent text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter attended lectures"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-300 font-semibold">Number of Remaining Lectures</label>
+          <input
+            type="number"
+            value={remainingClasses}
+            onChange={(e) => setRemainingClasses(e.target.value)}
+            className="w-full p-3 mt-1 bg-transparent text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter remaining lectures"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-300 font-semibold">Required Attendance Percentage</label>
+          <input
+            type="number"
+            value={requiredPercentage}
+            onChange={(e) => setRequiredPercentage(e.target.value)}
+            className="w-full p-3 mt-1 bg-transparent text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter required attendance percentage"
+          />
+        </div>
+
+        <button
+          onClick={calculateBunks}
+          className="w-full bg-blue-500 p-3 rounded-lg text-lg font-bold hover:bg-blue-600 transition-all shadow-md"
+          disabled={loading}
+        >
+          {loading ? "Calculating..." : "Check Bunk Availability 🎯"}
+        </button>
+      </div>
+
+      {result && (
+        <div className="mt-6 text-center bg-gray-900 p-4 rounded-lg shadow-lg w-full max-w-md">
+          <p className="text-lg font-bold">
+            🏆 YOUR CURRENT ATTENDANCE IS <span className="text-yellow-300">{result.current_attendance}%</span>
+          </p>
+          <p className="mt-2">
+            📌 YOU CAN BUNK <span className="text-red-400 font-bold">{result.max_bunks}</span> LECTURES <br />
+            ✅ NEED TO ATTEND <span className="text-green-400 font-bold">{result.min_attend}</span> MORE LECTURES
+          </p>
+        </div>
+      )}
+
+      <footer className="bg-gray-800 p-6 rounded-xl shadow-xl mt-8 text-sm text-gray-400 text-center">
+        Made by <span className="font-bold text-white">Vivek Jetani</span>
+        <div className="flex gap-4 justify-center mt-2">
+          <a href="https://instagram.com/vivekjetani" target="_blank" rel="noopener noreferrer">
+            <FaInstagram className="text-pink-400 text-2xl hover:text-pink-500 transition-all" />
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+          <a href="https://linkedin.com/in/vivekjetani" target="_blank" rel="noopener noreferrer">
+            <FaLinkedin className="text-blue-400 text-2xl hover:text-blue-500 transition-all" />
+          </a>
+          <a href="https://github.com/vivekjetani" target="_blank" rel="noopener noreferrer">
+            <FaGithub className="text-gray-300 text-2xl hover:text-white transition-all" />
+          </a>
+          <a href="https://jetani.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <GiOrbital className="text-gray-300 text-2xl hover:text-white transition-all" />
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
       </footer>
     </div>
   );
