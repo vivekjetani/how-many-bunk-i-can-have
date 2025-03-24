@@ -132,10 +132,10 @@ export default function Page() {
       <footer className="bg-gray-800 p-6 rounded-xl shadow-xl mt-8 text-sm text-gray-400 text-center">
         Made by <span className="font-bold text-white">Vivek Jetani</span>
         <div className="flex gap-4 justify-center mt-2">
-          <a href="https://instagram.com/vivekjetani" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/mr_vicky_jetani/" target="_blank" rel="noopener noreferrer">
             <FaInstagram className="text-pink-400 text-2xl hover:text-pink-500 transition-all" />
           </a>
-          <a href="https://linkedin.com/in/vivekjetani" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/jet-vivek-jetani/" target="_blank" rel="noopener noreferrer">
             <FaLinkedin className="text-blue-400 text-2xl hover:text-blue-500 transition-all" />
           </a>
           <a href="https://github.com/vivekjetani" target="_blank" rel="noopener noreferrer">
