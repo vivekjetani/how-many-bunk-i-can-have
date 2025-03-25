@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# How Many Bunk I Can Have?
 
-## Getting Started
+🎓 A simple React-based web app to calculate the number of classes you can bunk while maintaining the required attendance percentage.
 
-First, run the development server:
+## Features
+- 📊 Calculate your current attendance percentage.
+- 🏆 Check how many classes you can bunk.
+- ✅ Determine how many additional classes you need to attend.
+- 🎯 Easy-to-use UI with a responsive design.
+- 🌐 Backend hosted on Vercel.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Live Demo
+🔗 [Check it out here](https://how-many-bunk-i-can-have.vercel.app/)
+
+---
+
+## Tech Stack
+- **Frontend**: React, Tailwind CSS
+- **Backend**: Node.js, Express (Hosted on Vercel)
+
+## Installation & Setup
+### Prerequisites
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v16+ recommended)
+- npm or yarn
+
+### Clone the Repository
+```sh
+git clone https://github.com/vivekjetani/how-many-bunk-i-can-have.git
+cd how-many-bunk-i-can-have
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install Dependencies
+Using npm:
+```sh
+npm install
+```
+Or using yarn:
+```sh
+yarn install
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Run the Development Server
+```sh
+npm run dev
+```
+Or using yarn:
+```sh
+yarn dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open your browser and go to: `http://localhost:3000`
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
+1. Enter the **Total Number of Lectures** conducted.
+2. Enter the **Number of Lectures Attended**.
+3. Set the **Required Attendance Percentage** (default is 75%).
+4. Click on **Check Bunk Availability 🎯**.
+5. The app will display:
+   - ✅ Your current attendance percentage.
+   - 📌 The number of lectures you can bunk.
+   - 🏆 The number of additional lectures you need to attend if attendance is below the required percentage.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API Endpoint
+The app uses a backend API to perform calculations. The backend is hosted on Vercel and the endpoint is:
+```
+POST https://how-many-bunk-i-can-have-backend.vercel.app/calculate
+```
+### Request Body (JSON)
+```json
+{
+  "total_classes": 50,
+  "attended_classes": 40,
+  "desired_percentage": 75
+}
+```
+### Response (JSON)
+```json
+{
+  "current_attendance": 80,
+  "max_bunks": 6,
+  "additional_classes_needed": 0
+}
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
+### Deploy on Vercel
+1. Install Vercel CLI:
+   ```sh
+   npm install -g vercel
+   ```
+2. Run the deploy command:
+   ```sh
+   vercel
+   ```
+3. Follow the instructions to deploy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Author
+👨‍💻 **Vivek Jetani**
+- 🌐 [socials orbit](https://jetani.vercel.app/)
+- 📷 [Instagram](https://www.instagram.com/mr_vicky_jetani/)
+- 💼 [LinkedIn](https://www.linkedin.com/in/jet-vivek-jetani/)
+- 💻 [GitHub](https://github.com/vivekjetani)
+
+---
+
+## License
+This project is open-source and available under the [MIT License](LICENSE).
