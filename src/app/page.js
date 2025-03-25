@@ -3,7 +3,6 @@
 
 import { useState } from "react";
 import { FaInstagram, FaLinkedin, FaGithub, } from "react-icons/fa";
-import Select from "react-select";
 import { GiOrbital } from "react-icons/gi";
 
 
