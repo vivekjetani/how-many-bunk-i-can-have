@@ -3,26 +3,35 @@
 
 import { useState } from "react";
 import { FaInstagram, FaLinkedin, FaGithub, } from "react-icons/fa";
+import Select from "react-select";
 import { GiOrbital } from "react-icons/gi";
 
 
 export default function Page() {
   const [totalClasses, setTotalClasses] = useState("");
   const [attendedClasses, setAttendedClasses] = useState("");
-  const [remainingClasses, setRemainingClasses] = useState("");
   const [requiredPercentage, setRequiredPercentage] = useState(75);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const calculateBunks = async () => {
-    if (!totalClasses || !attendedClasses || !remainingClasses || !requiredPercentage) {
+    if (!totalClasses || !attendedClasses || !requiredPercentage) {
       alert("Please fill all fields.");
       return;
     }
+    if(totalClasses < attendedClasses){
+      alert("Total classes should be less than attended classes");
+      return;
+    }
+
+    if(requiredPercentage < 0 || requiredPercentage > 100){
+      alert("Required percentage should be between 0 and 100");
+      return;
+    } 
 
     setLoading(true);
     try {
-      const response = await fetch("https://how-many-bunk-i-can-have-backend.vercel.app/calculate", {
+      const response = await fetch("http://127.0.0.1:5000/calculate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,8 +39,7 @@ export default function Page() {
         body: JSON.stringify({
           total_classes: Number(totalClasses),
           attended_classes: Number(attendedClasses),
-          remaining_classes: Number(remainingClasses),
-          required_percentage: Number(requiredPercentage),
+          desired_percentage: Number(requiredPercentage),
         }),
       });
 
@@ -87,17 +95,6 @@ export default function Page() {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-300 font-semibold">Number of Remaining Lectures</label>
-          <input
-            type="number"
-            value={remainingClasses}
-            onChange={(e) => setRemainingClasses(e.target.value)}
-            className="w-full p-3 mt-1 bg-transparent text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter remaining lectures"
-          />
-        </div>
-
-        <div className="mb-4">
           <label className="block text-gray-300 font-semibold">Required Attendance Percentage</label>
           <input
             type="number"
@@ -124,7 +121,7 @@ export default function Page() {
           </p>
           <p className="mt-2">
             📌 YOU CAN BUNK <span className="text-red-400 font-bold">{result.max_bunks}</span> LECTURES <br />
-            ✅ NEED TO ATTEND <span className="text-green-400 font-bold">{result.min_attend}</span> MORE LECTURES
+            ✅ NEED TO ATTEND <span className="text-green-400 font-bold">{result.additional_classes_needed}</span> MORE LECTURES
           </p>
         </div>
       )}
