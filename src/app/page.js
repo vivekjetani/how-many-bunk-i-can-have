@@ -19,11 +19,13 @@ export default function Page() {
       return;
     }
     if(totalClasses < attendedClasses){
+      console.log(totalClasses);
+      console.log(attendedClasses);
       alert("Total classes should be less than attended classes");
       return;
     }
 
-    if(requiredPercentage < 0 || requiredPercentage > 100){
+    if(requiredPercentage <= 0 || requiredPercentage >= 100){
       alert("Required percentage should be between 0 and 100");
       return;
     } 
