@@ -13,7 +13,7 @@ export default function Page() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  console.log(typeof totalClasses);
+
 
   const calculateBunks = async () => {
     if (!totalClasses || !attendedClasses || !requiredPercentage) {
