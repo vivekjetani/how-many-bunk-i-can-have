@@ -18,14 +18,14 @@ export default function Page() {
       alert("Please fill all fields.");
       return;
     }
-    if(totalClasses < attendedClasses){
+    if(number(totalClasses) < number(attendedClasses)){
       console.log(totalClasses);
       console.log(attendedClasses);
       alert("Total classes should be less than attended classes");
       return;
     }
 
-    if(requiredPercentage <= 0 || requiredPercentage >= 100){
+    if(number(requiredPercentage) <= 0 || number(requiredPercentage) >= 100){
       alert("Required percentage should be between 0 and 100");
       return;
     } 
