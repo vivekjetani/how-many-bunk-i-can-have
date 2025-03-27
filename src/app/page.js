@@ -13,19 +13,21 @@ export default function Page() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  console.log(typeof totalClasses);
+
   const calculateBunks = async () => {
     if (!totalClasses || !attendedClasses || !requiredPercentage) {
       alert("Please fill all fields.");
       return;
     }
-    if(number(totalClasses) < number(attendedClasses)){
+    if(Number(totalClasses) < Number(attendedClasses)){
       console.log(totalClasses);
       console.log(attendedClasses);
       alert("Total classes should be less than attended classes");
       return;
     }
 
-    if(number(requiredPercentage) <= 0 || number(requiredPercentage) >= 100){
+    if(Number(requiredPercentage) <= 0 || Number(requiredPercentage) >= 100){
       alert("Required percentage should be between 0 and 100");
       return;
     } 
