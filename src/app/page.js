@@ -13,16 +13,12 @@ export default function Page() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-
-
   const calculateBunks = async () => {
     if (!totalClasses || !attendedClasses || !requiredPercentage) {
       alert("Please fill all fields.");
       return;
     }
     if(Number(totalClasses) < Number(attendedClasses)){
-      console.log(totalClasses);
-      console.log(attendedClasses);
       alert("Total classes should be less than attended classes");
       return;
     }
@@ -118,16 +114,36 @@ export default function Page() {
       </div>
 
       {result && (
-        <div className="mt-6 text-center bg-gray-900 p-4 rounded-lg shadow-lg w-full max-w-md">
-          <p className="text-lg font-bold">
-            🏆 YOUR CURRENT ATTENDANCE IS <span className="text-yellow-300">{result.current_attendance}%</span>
-          </p>
-          <p className="mt-2">
-            📌 YOU CAN BUNK <span className="text-red-400 font-bold">{result.max_bunks}</span> LECTURES <br />
-            ✅ NEED TO ATTEND <span className="text-green-400 font-bold">{result.additional_classes_needed}</span> MORE LECTURES
-          </p>
-        </div>
-      )}
+  <div className="mt-6 text-center bg-gray-900 p-4 rounded-lg shadow-lg w-full max-w-md">
+    <p className="text-lg font-bold">
+      🏆 YOUR CURRENT ATTENDANCE IS <span className="text-yellow-300">{result.current_attendance}%</span>
+    </p>
+    {result.max_bunks === 0 && result.additional_classes_needed === 0 ? (
+      <p className="mt-2">
+        ✅ 🎉 Congratulations! Your attendance is exactly at the required percentage. Keep maintaining it!
+      </p>
+    ) : result.additional_classes_needed === 0 ? (
+      <p className="mt-2">
+        🎉 Based on your current attendance, you can bunk{" "}
+        <span className="text-red-400 font-bold">{result.max_bunks}</span> more lectures, but after that check Again.
+      </p>
+    ) : result.max_bunks === 0 ? (
+      <p className="mt-2">
+        ⚠️ You cannot bunk any more classes. You need to attend <span className="text-green-400 font-bold">{result.additional_classes_needed}</span> lectures to maintain the required percentage.
+      </p>
+    ) : (
+      <p className="mt-2">
+        📌 You can bunk <span className="text-red-400 font-bold">{result.max_bunks}</span> lectures, but you also need to attend <span className="text-green-400 font-bold">{result.additional_classes_needed}</span> more lectures to maintain the required percentage.
+      </p>
+    )}
+
+    {/* Warning message below all cases */}
+    <p className="mt-4 text-yellow-300 font-semibold">
+      ⚠️ Check your attendance here regularly to avoid any issues!
+    </p>
+  </div>
+)}
+
 
       <footer className="bg-gray-800 p-6 rounded-xl shadow-xl mt-8 text-sm text-gray-400 text-center">
         Made by <span className="font-bold text-white">Vivek Jetani</span>
